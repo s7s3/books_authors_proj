@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="display-5 mt-4">{{book.title}}</h1>
+      <div class="d-flex flex-column">
+        <div class="d-flex">
+          <p class="mx-2">ID:</p>
+          <p class="mx-2">{{book.id}}</p>
+        </div>
+
+        <div class="d-flex">
+          <p class="mx-2">Description:</p>
+          <p class="mx-2 w-50">{{book.description}}</p>
+        </div>
+
+        <div class="d-flex">
+          <p class="mx-2">Authors:</p>
+          <ul>
+            {% for author in book.authors.all %}
+            <li>{{author.first_name}} {{author.last_name}}</li>
+            {% endfor %}
+          </ul>
+
+          <form class="m-4 d-flex" action="/create" method="POST">
+            {% csrf_token %}
+            <select class="form-select" name="author_id" required>
+              <option value="" selected>Select one</option>
+              {% for author in authors %}
+              <option value="{{author.id}}">
+                {{author.first_name}} {{author.last_name}}
+              </option>
+              {% endfor %}
+            </select>
+            <input type="hidden" name="book_id" value="{{book.id}}" />
+            <input type="hidden" name="form" value="addAuthor" />
+            <button type="submit" class="btn btn-primary mx-4 w-50">Add</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

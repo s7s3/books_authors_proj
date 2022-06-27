@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{author.first_name}} {{author.last_name}}</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="display-5 mt-4">{{author.first_name}} {{author.last_name}}</h1>
+      <div class="d-flex flex-column">
+        <div class="d-flex">
+          <p class="mx-2">ID:</p>
+          <p class="mx-2">{{author.id}}</p>
+        </div>
+
+        <div class="d-flex">
+          <p class="mx-2">Notes:</p>
+          <p class="mx-2 w-50">{{author.notes}}</p>
+        </div>
+
+        <div class="d-flex">
+          <p class="mx-2">Books:</p>
+          <ul>
+            {% for book in author.books.all %}
+            <li>{{book.title}}</li>
+            {% endfor %}
+          </ul>
+
+          <form class="m-4 d-flex" action="/create" method="POST">
+            {% csrf_token %}
+            <select class="form-select" name="book_id">
+              <option value="" selected>Select one</option>
+              {% for book in books %}
+              <option value="{{book.id}}">{{book.title}}</option>
+              {% endfor %}
+            </select>
+            <input type="hidden" name="author_id" value="{{author.id}}" />
+            <input type="hidden" name="form" value="addBook" />
+            <button type="submit" class="btn btn-primary mx-4 w-50">Add</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
+      integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js"
+      integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
